@@ -73,6 +73,19 @@ Rectangle::Rectangle(Eigen::Vector3d A, Eigen::Vector3d B, Eigen::Vector3d C, Ei
   this->projector = basis * basis.transpose();
 }
 
+Box::Box() {
+}
+
+Box::~Box() {
+}
+
+Box::Box(Eigen::Vector3d center, double depth, double width, double height) {
+  this->center = center;
+  this->depth  = depth;
+  this->width  = width;
+  this->height = height;
+}
+
 boost::optional<Eigen::Vector3d> Rectangle::intersectionRay(Ray r, double epsilon) {
   boost::optional<Eigen::Vector3d> intersect = this->plane.intersectionRay(r, epsilon);
   if (!intersect) {

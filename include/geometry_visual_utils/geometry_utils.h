@@ -58,6 +58,19 @@ public:
   boost::optional<Eigen::Vector3d> intersectionRay(Ray r, double epsilon = 1e-16);
 };
 
+class Box {
+public:
+  Box();
+  ~Box();
+  Box(Eigen::Vector3d center, double depth, double width, double height);
+
+  Eigen::Vector3d center;
+
+  double depth;
+  double width;
+  double height;
+};
+
 double haversin(double angle);
 double invHaversin(double angle);
 
@@ -68,8 +81,8 @@ double rectSolidAngle(Rectangle r, Eigen::Vector3d center);
 double triangleArea(double a, double b, double c);
 double sphericalTriangleArea(Eigen::Vector3d a, Eigen::Vector3d b, Eigen::Vector3d c);
 
-Eigen::Vector3d pos3toVector3d(ignition::math::Pose3d gzpos);
+Eigen::Vector3d    pos3toVector3d(ignition::math::Pose3d gzpos);
 Eigen::Quaterniond pos3toQuaterniond(ignition::math::Pose3d gzpos);
-Rectangle       move(Rectangle r, Eigen::Vector3d translation, Eigen::Quaterniond rotation);
+Rectangle          move(Rectangle r, Eigen::Vector3d translation, Eigen::Quaterniond rotation);
 
 #endif
