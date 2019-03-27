@@ -221,8 +221,113 @@ void BatchVisualizer::addRect(Rectangle rect) {
   msg.markers.push_back(marker);
 }
 
-void BatchVisualizer::addBox(Box b) {
-  boxes.push_back(b);
+void BatchVisualizer::addBox(Box box, double r, double g, double b) {
+  ++marker_count;
+  visualization_msgs::Marker marker_front;
+  marker_front.header.frame_id    = frame;
+  marker_front.header.stamp       = ros::Time::now();
+  marker_front.ns                 = "box";
+  marker_front.action             = visualization_msgs::Marker::ADD;
+  marker_front.pose.orientation.w = 1.0;
+  marker_front.id                 = marker_count;
+  marker_front.type               = visualization_msgs::Marker::LINE_STRIP;
+
+  marker_front.scale.x = 0.002;
+
+  marker_front.color.r = r;
+  marker_front.color.g = g;
+  marker_front.color.b = b;
+  marker_front.color.a = 1.0;
+
+  ++marker_count;
+  visualization_msgs::Marker marker_back;
+  marker_back    = marker_front;
+  marker_back.id = marker_count;
+
+  ++marker_count;
+  visualization_msgs::Marker marker_af;
+  marker_af    = marker_front;
+  marker_af.id = marker_count;
+
+  ++marker_count;
+  visualization_msgs::Marker marker_be;
+  marker_be    = marker_front;
+  marker_be.id = marker_count;
+
+  ++marker_count;
+  visualization_msgs::Marker marker_dg;
+  marker_dg    = marker_front;
+  marker_dg.id = marker_count;
+
+  ++marker_count;
+  visualization_msgs::Marker marker_ch;
+  marker_ch    = marker_front;
+  marker_ch.id = marker_count;
+
+  geometry_msgs::Point pa, pb, pc, pd, pe, pf, pg, ph;
+
+  pa.x = box.vertices[0][0];
+  pa.y = box.vertices[0][1];
+  pa.z = box.vertices[0][2];
+
+  pb.x = box.vertices[1][0];
+  pb.y = box.vertices[1][1];
+  pb.z = box.vertices[1][2];
+
+  pc.x = box.vertices[2][0];
+  pc.y = box.vertices[2][1];
+  pc.z = box.vertices[2][2];
+
+  pd.x = box.vertices[3][0];
+  pd.y = box.vertices[3][1];
+  pd.z = box.vertices[3][2];
+
+  pe.x = box.vertices[4][0];
+  pe.y = box.vertices[4][1];
+  pe.z = box.vertices[4][2];
+
+  pf.x = box.vertices[5][0];
+  pf.y = box.vertices[5][1];
+  pf.z = box.vertices[5][2];
+
+  pg.x = box.vertices[6][0];
+  pg.y = box.vertices[6][1];
+  pg.z = box.vertices[6][2];
+
+  ph.x = box.vertices[7][0];
+  ph.y = box.vertices[7][1];
+  ph.z = box.vertices[7][2];
+
+  marker_front.points.push_back(pa);
+  marker_front.points.push_back(pb);
+  marker_front.points.push_back(pc);
+  marker_front.points.push_back(pd);
+  marker_front.points.push_back(pa);
+
+  marker_back.points.push_back(pe);
+  marker_back.points.push_back(pf);
+  marker_back.points.push_back(pg);
+  marker_back.points.push_back(ph);
+  marker_back.points.push_back(pe);
+
+  marker_af.points.push_back(pa);
+  marker_af.points.push_back(pf);
+
+  marker_be.points.push_back(pb);
+  marker_be.points.push_back(pe);
+
+  marker_dg.points.push_back(pd);
+  marker_dg.points.push_back(pg);
+
+  marker_ch.points.push_back(pc);
+  marker_ch.points.push_back(ph);
+
+  msg.markers.push_back(marker_front);
+  msg.markers.push_back(marker_back);
+  msg.markers.push_back(marker_af);
+  msg.markers.push_back(marker_be);
+  msg.markers.push_back(marker_dg);
+  msg.markers.push_back(marker_ch);
 }
 
 void BatchVisualizer::clear() {
