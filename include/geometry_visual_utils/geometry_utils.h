@@ -58,16 +58,15 @@ public:
   boost::optional<Eigen::Vector3d> intersectionRay(Ray r, double epsilon = 1e-16);
 };
 
-class Box {
+class Cuboid {
 public:
-  Box();
-  ~Box();
-  Box(Eigen::Vector3d center, Eigen::Quaterniond orientation, double depth, double width, double height);
-  Box(Eigen::Vector3d A, Eigen::Vector3d B, Eigen::Vector3d C, Eigen::Vector3d D, Eigen::Vector3d E, Eigen::Vector3d F, Eigen::Vector3d G, Eigen::Vector3d H);
-  Box(std::vector<Rectangle> sides);
+  Cuboid();
+  ~Cuboid();
+  Cuboid(Eigen::Vector3d center, Eigen::Quaterniond orientation, double depth, double width, double height);
+  Cuboid(Eigen::Vector3d A, Eigen::Vector3d B, Eigen::Vector3d C, Eigen::Vector3d D, Eigen::Vector3d E, Eigen::Vector3d F, Eigen::Vector3d G, Eigen::Vector3d H);
+  Cuboid(std::vector<Rectangle> sides);
 
   Eigen::Vector3d center;
-
   std::vector<Eigen::Vector3d> vertices;
 };
 

@@ -73,13 +73,13 @@ Rectangle::Rectangle(Eigen::Vector3d A, Eigen::Vector3d B, Eigen::Vector3d C, Ei
   this->projector = basis * basis.transpose();
 }
 
-Box::Box() {
+Cuboid::Cuboid() {
 }
 
-Box::~Box() {
+Cuboid::~Cuboid() {
 }
 
-Box::Box(Eigen::Vector3d center, Eigen::Quaterniond orientation, double depth, double width, double height) {
+Cuboid::Cuboid(Eigen::Vector3d center, Eigen::Quaterniond orientation, double depth, double width, double height) {
   this->center = center;
 
   Eigen::Vector3d A = orientation * Eigen::Vector3d(depth / 2.0, -width / 2.0, -height / 2.0) + center;
@@ -104,7 +104,7 @@ Box::Box(Eigen::Vector3d center, Eigen::Quaterniond orientation, double depth, d
   this->vertices.push_back(H);
 }
 
-Box::Box(Eigen::Vector3d A, Eigen::Vector3d B, Eigen::Vector3d C, Eigen::Vector3d D, Eigen::Vector3d E, Eigen::Vector3d F, Eigen::Vector3d G,
+Cuboid::Cuboid(Eigen::Vector3d A, Eigen::Vector3d B, Eigen::Vector3d C, Eigen::Vector3d D, Eigen::Vector3d E, Eigen::Vector3d F, Eigen::Vector3d G,
          Eigen::Vector3d H) {
   this->vertices.clear();
   this->vertices.push_back(A);

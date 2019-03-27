@@ -27,8 +27,8 @@ find_package(Threads REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
 
 catkin_package(
-  DEPENDS Eigen roscpp gazebo_ros
   INCLUDE_DIRS include
+  DEPENDS Eigen roscpp gazebo_ros
   LIBRARIES geometry_visual_utils geometry_utils
   )
 

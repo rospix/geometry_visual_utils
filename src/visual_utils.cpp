@@ -221,12 +221,12 @@ void BatchVisualizer::addRect(Rectangle rect) {
   msg.markers.push_back(marker);
 }
 
-void BatchVisualizer::addBox(Box box, double r, double g, double b) {
+void BatchVisualizer::addCuboid(Cuboid cuboid, double r, double g, double b) {
   ++marker_count;
   visualization_msgs::Marker marker_front;
   marker_front.header.frame_id    = frame;
   marker_front.header.stamp       = ros::Time::now();
-  marker_front.ns                 = "box";
+  marker_front.ns                 = "cuboid";
   marker_front.action             = visualization_msgs::Marker::ADD;
   marker_front.pose.orientation.w = 1.0;
   marker_front.id                 = marker_count;
@@ -266,37 +266,37 @@ void BatchVisualizer::addBox(Box box, double r, double g, double b) {
 
   geometry_msgs::Point pa, pb, pc, pd, pe, pf, pg, ph;
 
-  pa.x = box.vertices[0][0];
-  pa.y = box.vertices[0][1];
-  pa.z = box.vertices[0][2];
+  pa.x = cuboid.vertices[0][0];
+  pa.y = cuboid.vertices[0][1];
+  pa.z = cuboid.vertices[0][2];
 
-  pb.x = box.vertices[1][0];
-  pb.y = box.vertices[1][1];
-  pb.z = box.vertices[1][2];
+  pb.x = cuboid.vertices[1][0];
+  pb.y = cuboid.vertices[1][1];
+  pb.z = cuboid.vertices[1][2];
 
-  pc.x = box.vertices[2][0];
-  pc.y = box.vertices[2][1];
-  pc.z = box.vertices[2][2];
+  pc.x = cuboid.vertices[2][0];
+  pc.y = cuboid.vertices[2][1];
+  pc.z = cuboid.vertices[2][2];
 
-  pd.x = box.vertices[3][0];
-  pd.y = box.vertices[3][1];
-  pd.z = box.vertices[3][2];
+  pd.x = cuboid.vertices[3][0];
+  pd.y = cuboid.vertices[3][1];
+  pd.z = cuboid.vertices[3][2];
 
-  pe.x = box.vertices[4][0];
-  pe.y = box.vertices[4][1];
-  pe.z = box.vertices[4][2];
+  pe.x = cuboid.vertices[4][0];
+  pe.y = cuboid.vertices[4][1];
+  pe.z = cuboid.vertices[4][2];
 
-  pf.x = box.vertices[5][0];
-  pf.y = box.vertices[5][1];
-  pf.z = box.vertices[5][2];
+  pf.x = cuboid.vertices[5][0];
+  pf.y = cuboid.vertices[5][1];
+  pf.z = cuboid.vertices[5][2];
 
-  pg.x = box.vertices[6][0];
-  pg.y = box.vertices[6][1];
-  pg.z = box.vertices[6][2];
+  pg.x = cuboid.vertices[6][0];
+  pg.y = cuboid.vertices[6][1];
+  pg.z = cuboid.vertices[6][2];
 
-  ph.x = box.vertices[7][0];
-  ph.y = box.vertices[7][1];
-  ph.z = box.vertices[7][2];
+  ph.x = cuboid.vertices[7][0];
+  ph.y = cuboid.vertices[7][1];
+  ph.z = cuboid.vertices[7][2];
 
   marker_front.points.push_back(pa);
   marker_front.points.push_back(pb);
