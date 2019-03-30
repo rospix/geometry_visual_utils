@@ -80,7 +80,6 @@ Cuboid::~Cuboid() {
 }
 
 Cuboid::Cuboid(Eigen::Vector3d center, Eigen::Quaterniond orientation, double depth, double width, double height) {
-  this->center = center;
 
   Eigen::Vector3d A = orientation * Eigen::Vector3d(depth / 2.0, -width / 2.0, -height / 2.0) + center;
   Eigen::Vector3d B = orientation * Eigen::Vector3d(depth / 2.0, width / 2.0, -height / 2.0) + center;
@@ -92,6 +91,19 @@ Cuboid::Cuboid(Eigen::Vector3d center, Eigen::Quaterniond orientation, double de
   Eigen::Vector3d G = orientation * Eigen::Vector3d(-depth / 2.0, -width / 2.0, height / 2.0) + center;
   Eigen::Vector3d H = orientation * Eigen::Vector3d(-depth / 2.0, width / 2.0, height / 2.0) + center;
 
+  Rectangle front(A, B, C, D);
+  Rectangle back(E, F, G, H);
+  Rectangle left(B, E, H, C);
+  Rectangle right(F, A, D, G);
+  Rectangle bottom(F, E, B, A);
+  Rectangle top(D, C, H, G);
+
+  sides.push_back(front);
+  sides.push_back(back);
+  sides.push_back(left);
+  sides.push_back(right);
+  sides.push_back(bottom);
+  sides.push_back(top);
 
   this->vertices.clear();
   this->vertices.push_back(A);
@@ -105,7 +117,7 @@ Cuboid::Cuboid(Eigen::Vector3d center, Eigen::Quaterniond orientation, double de
 }
 
 Cuboid::Cuboid(Eigen::Vector3d A, Eigen::Vector3d B, Eigen::Vector3d C, Eigen::Vector3d D, Eigen::Vector3d E, Eigen::Vector3d F, Eigen::Vector3d G,
-         Eigen::Vector3d H) {
+               Eigen::Vector3d H) {
   this->vertices.clear();
   this->vertices.push_back(A);
   this->vertices.push_back(B);
@@ -115,6 +127,20 @@ Cuboid::Cuboid(Eigen::Vector3d A, Eigen::Vector3d B, Eigen::Vector3d C, Eigen::V
   this->vertices.push_back(F);
   this->vertices.push_back(G);
   this->vertices.push_back(H);
+
+  Rectangle front(A, B, C, D);
+  Rectangle back(E, F, G, H);
+  Rectangle left(B, E, H, C);
+  Rectangle right(F, A, D, G);
+  Rectangle bottom(F, E, B, A);
+  Rectangle top(D, C, H, G);
+
+  sides.push_back(front);
+  sides.push_back(back);
+  sides.push_back(left);
+  sides.push_back(right);
+  sides.push_back(bottom);
+  sides.push_back(top);
 }
 
 boost::optional<Eigen::Vector3d> Rectangle::intersectionRay(Ray r, double epsilon) {
