@@ -10,7 +10,7 @@ void VisualTools::visualizeRay(ros::Publisher pub, Ray ray, std::string frame) {
   line_strip.id                 = 1;
   line_strip.type               = visualization_msgs::Marker::LINE_STRIP;
 
-  line_strip.scale.x = 0.004;
+  line_strip.scale.x = 0.002;
 
   line_strip.color.r = 1.0;
   line_strip.color.a = 1.0;
