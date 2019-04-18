@@ -2,6 +2,7 @@
 #include <iostream>
 #include <ros/ros.h>
 
+/* Ray */  //{
 Ray::Ray() {
   this->p1 = Eigen::Vector3d(0.0, 0.0, 0.0);
   this->p2 = Eigen::Vector3d(0.0, 0.0, 0.0);
@@ -15,7 +16,9 @@ Ray::Ray(Eigen::Vector3d p1, Eigen::Vector3d p2) {
   this->p2        = p2;
   this->direction = p2 - p1;
 }
+//}
 
+/* Plane */  //{
 Plane::Plane() {
 }
 
@@ -40,7 +43,9 @@ boost::optional<Eigen::Vector3d> Plane::intersectionRay(Ray r, double epsilon) {
     return boost::optional<Eigen::Vector3d>{};
   }
 }
+//}
 
+/* Rectangle */  //{
 Rectangle::Rectangle() {
 }
 
@@ -73,6 +78,36 @@ Rectangle::Rectangle(Eigen::Vector3d A, Eigen::Vector3d B, Eigen::Vector3d C, Ei
   this->projector = basis * basis.transpose();
 }
 
+boost::optional<Eigen::Vector3d> Rectangle::intersectionRay(Ray r, double epsilon) {
+  boost::optional<Eigen::Vector3d> intersect = this->plane.intersectionRay(r, epsilon);
+  if (!intersect) {
+    return intersect;
+  }
+  Eigen::Vector3d projection = basis.inverse() * (intersect.get() - points[0]);
+  if (projection[0] >= 0.0 && projection[0] <= 1.0 && projection[1] >= 0.0 && projection[1] <= 1.0) {
+    return intersect;
+  }
+  return boost::optional<Eigen::Vector3d>{};
+}
+//}
+
+/* Ellipse */  //{
+Ellipse::Ellipse() {
+}
+
+Ellipse::~Ellipse() {
+}
+
+Ellipse::Ellipse(double a, double b, double x, double y, double phi) {
+  this->a   = a;
+  this->b   = b;
+  this->x   = x;
+  this->y   = y;
+  this->phi = phi;
+}
+//}
+
+/* Cuboid */  //{
 Cuboid::Cuboid() {
 }
 
@@ -142,19 +177,9 @@ Cuboid::Cuboid(Eigen::Vector3d A, Eigen::Vector3d B, Eigen::Vector3d C, Eigen::V
   sides.push_back(bottom);
   sides.push_back(top);
 }
+//}
 
-boost::optional<Eigen::Vector3d> Rectangle::intersectionRay(Ray r, double epsilon) {
-  boost::optional<Eigen::Vector3d> intersect = this->plane.intersectionRay(r, epsilon);
-  if (!intersect) {
-    return intersect;
-  }
-  Eigen::Vector3d projection = basis.inverse() * (intersect.get() - points[0]);
-  if (projection[0] >= 0.0 && projection[0] <= 1.0 && projection[1] >= 0.0 && projection[1] <= 1.0) {
-    return intersect;
-  }
-  return boost::optional<Eigen::Vector3d>{};
-}
-
+/* Miscellaneous */ //{
 double haversin(double angle) {
   return (1.0 - std::cos(angle)) / 2.0;
 }
@@ -231,3 +256,4 @@ Rectangle move(Rectangle r, Eigen::Vector3d translation, Eigen::Quaterniond rota
   }
   return ret;
 }
+//}

@@ -221,6 +221,43 @@ void BatchVisualizer::addRect(Rectangle rect) {
   msg.markers.push_back(marker);
 }
 
+void BatchVisualizer::addEllipse(Ellipse e, double r, double g, double b) {
+  ++marker_count;
+  visualization_msgs::Marker marker;
+  marker.header.frame_id    = frame;
+  marker.header.stamp       = ros::Time::now();
+  marker.ns                 = "point";
+  marker.action             = visualization_msgs::Marker::ADD;
+  marker.pose.orientation.w = e.phi;
+  marker.id                 = marker_count;
+  marker.type               = visualization_msgs::Marker::CYLINDER;
+
+  marker.scale.x = e.a;
+  marker.scale.y = e.b;
+  marker.scale.z = 0.001;
+
+  marker.pose.position.x = e.x;
+  marker.pose.position.y = e.y;
+  marker.pose.position.z = 0.0;
+
+
+  Eigen::Quaterniond q =
+      Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitX()) * Eigen::AngleAxisd(0.0, Eigen::Vector3d::UnitY()) * Eigen::AngleAxisd(e.phi, Eigen::Vector3d::UnitZ());
+
+
+  marker.pose.orientation.w = q.w();
+  marker.pose.orientation.x = q.x();
+  marker.pose.orientation.y = q.y();
+  marker.pose.orientation.z = q.z();
+
+  marker.color.r = r;
+  marker.color.g = g;
+  marker.color.b = b;
+  marker.color.a = 0.4;
+
+  msg.markers.push_back(marker);
+}
+
 void BatchVisualizer::addCuboid(Cuboid cuboid, double r, double g, double b) {
   ++marker_count;
   visualization_msgs::Marker marker_front;

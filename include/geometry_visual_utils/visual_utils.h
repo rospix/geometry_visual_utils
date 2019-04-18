@@ -3,6 +3,7 @@
 
 #include <ros/ros.h>
 #include <vector>
+#include <ignition/math.hh>
 #include <eigen3/Eigen/Core>
 #include "geometry_utils.h"
 #include <visualization_msgs/MarkerArray.h>
@@ -26,6 +27,7 @@ public:
   void addPoint(Eigen::Vector3d p);
   void addRect(Rectangle rect);
   void addCuboid(Cuboid cuboid, double r = 0.0, double g = 0.6, double b = 1.0);
+  void addEllipse(Ellipse e, double r = 1.0, double g = 0.2, double b = 0.2);
 
   void clear();
   void publish();
@@ -38,8 +40,8 @@ private:
   std::vector<Ray>             rays;
   std::vector<Eigen::Vector3d> points;
   std::vector<Rectangle>       rects;
-  std::vector<Cuboid>             cuboids;
-  
+  std::vector<Cuboid>          cuboids;
+
   int marker_count = 0;
 };
 

@@ -58,6 +58,17 @@ public:
   boost::optional<Eigen::Vector3d> intersectionRay(Ray r, double epsilon = 1e-16);
 };
 
+class Ellipse {
+
+public:
+  Ellipse();
+  ~Ellipse();
+  Ellipse(double a, double b, double x, double y, double phi);
+
+  double a, b, x, y, phi;
+
+};
+
 class Cuboid {
 public:
   Cuboid();
@@ -67,7 +78,7 @@ public:
          Eigen::Vector3d H);
 
   std::vector<Eigen::Vector3d> vertices;
-  std::vector<Rectangle> sides;
+  std::vector<Rectangle>       sides;
 };
 
 double haversin(double angle);
