@@ -249,11 +249,24 @@ Eigen::Quaterniond pos3toQuaterniond(ignition::math::Pose3d gzpos) {
 }
 
 Rectangle move(Rectangle r, Eigen::Vector3d translation, Eigen::Quaterniond rotation) {
-  // TODO Needs copy constructor
   Rectangle ret;
   for (int i = 0; i < 4; i++) {
     ret.points.push_back((rotation * r.points[i]) + translation);
   }
+  Eigen::Vector3d v1 = ret.points[1] - ret.points[0];
+  Eigen::Vector3d v2 = ret.points[3] - ret.points[0];
+
+ ret.normal_vector = v1.cross(v2);
+  ret.normal_vector.normalize();
+
+  ret.plane = Plane(ret.points[0], ret.normal_vector);
+
+  ret.basis.col(0) << ret.points[1] - ret.points[0];
+  ret.basis.col(1) << ret.points[3] - ret.points[0];
+  ret.basis.col(2) << ret.normal_vector;
+
+  ret.projector = ret.basis * ret.basis.transpose();
+
   return ret;
 }
 //}
