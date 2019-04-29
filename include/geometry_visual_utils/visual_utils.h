@@ -24,7 +24,7 @@ public:
   BatchVisualizer(ros::NodeHandle rosNode, std::string frame);
 
   void addRay(Ray ray, double r = 1.0, double g = 0.0, double b = 0.0);
-  void addPoint(Eigen::Vector3d p);
+  void addPoint(Eigen::Vector3d p, double r = 0.0, double g = 1.0, double b = 0.3, double scale = 0.04);
   void addRect(Rectangle rect);
   void addCuboid(Cuboid cuboid, double r = 0.0, double g = 0.6, double b = 1.0);
   void addEllipse(Ellipse e, double r = 1.0, double g = 0.2, double b = 0.2);

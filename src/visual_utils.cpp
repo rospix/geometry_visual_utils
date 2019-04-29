@@ -148,7 +148,7 @@ void BatchVisualizer::addRay(Ray ray, double r, double g, double b) {
 }
 
 
-void BatchVisualizer::addPoint(Eigen::Vector3d p) {
+void BatchVisualizer::addPoint(Eigen::Vector3d p, double r, double g, double b, double scale) {
   ++marker_count;
   visualization_msgs::Marker marker;
   marker.header.frame_id    = frame;
@@ -159,12 +159,12 @@ void BatchVisualizer::addPoint(Eigen::Vector3d p) {
   marker.id                 = marker_count;
   marker.type               = visualization_msgs::Marker::POINTS;
 
-  marker.scale.x = 0.04;
-  marker.scale.y = 0.04;
+  marker.scale.x = scale;
+  marker.scale.y = scale;
 
-  marker.color.r = 0.0;
-  marker.color.g = 1.0;
-  marker.color.b = 0.7;
+  marker.color.r = r;
+  marker.color.g = g;
+  marker.color.b = b;
   marker.color.a = 1.0;
 
   geometry_msgs::Point gp;
