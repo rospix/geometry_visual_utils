@@ -2,6 +2,16 @@
 #include <iostream>
 #include <ros/ros.h>
 
+/* Line2D */  //{
+Line2D::Line2D(Eigen::Vector2d normal, double c) {
+  this->normal = normal;
+  this->c      = c;
+}
+Line2D::~Line2D() {
+}
+
+//}
+
 /* Ray */  //{
 Ray::Ray() {
   this->p1 = Eigen::Vector3d(0.0, 0.0, 0.0);
@@ -179,7 +189,7 @@ Cuboid::Cuboid(Eigen::Vector3d A, Eigen::Vector3d B, Eigen::Vector3d C, Eigen::V
 }
 //}
 
-/* Miscellaneous */ //{
+/* Miscellaneous */  //{
 double haversin(double angle) {
   return (1.0 - std::cos(angle)) / 2.0;
 }
@@ -256,7 +266,7 @@ Rectangle move(Rectangle r, Eigen::Vector3d translation, Eigen::Quaterniond rota
   Eigen::Vector3d v1 = ret.points[1] - ret.points[0];
   Eigen::Vector3d v2 = ret.points[3] - ret.points[0];
 
- ret.normal_vector = v1.cross(v2);
+  ret.normal_vector = v1.cross(v2);
   ret.normal_vector.normalize();
 
   ret.plane = Plane(ret.points[0], ret.normal_vector);
@@ -267,6 +277,17 @@ Rectangle move(Rectangle r, Eigen::Vector3d translation, Eigen::Quaterniond rota
 
   ret.projector = ret.basis * ret.basis.transpose();
 
+  return ret;
+}
+
+Eigen::Vector2d *intersection(Line2D l1, Line2D l2) {
+  double denom = l1.normal[0] * l2.normal[1] - l1.normal[1] * l2.normal[0];
+  if (denom == 0) {
+    return nullptr;
+  }
+  Eigen::Vector2d *ret = new Eigen::Vector2d(0, 0);
+  ret->x()             = (l1.c * l2.normal[1] - l2.c * l1.normal[1]) / denom;
+  ret->y()             = (l1.normal[0] * l2.c - l2.normal[0] * l1.c) / denom;
   return ret;
 }
 //}

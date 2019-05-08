@@ -26,6 +26,16 @@ public:
   }
 };
 
+class Line2D {
+  public:
+    Line2D();
+    ~Line2D();
+    Line2D(Eigen::Vector2d normal, double c);
+
+    Eigen::Vector2d normal;
+    double c;
+};
+
 class Plane {
 public:
   Plane();
@@ -94,5 +104,7 @@ double sphericalTriangleArea(Eigen::Vector3d a, Eigen::Vector3d b, Eigen::Vector
 Eigen::Vector3d    pos3toVector3d(ignition::math::Pose3d gzpos);
 Eigen::Quaterniond pos3toQuaterniond(ignition::math::Pose3d gzpos);
 Rectangle          move(Rectangle r, Eigen::Vector3d translation, Eigen::Quaterniond rotation);
+
+Eigen::Vector2d *intersection(Line2D l1, Line2D l2);
 
 #endif
