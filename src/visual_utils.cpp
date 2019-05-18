@@ -1,5 +1,19 @@
 #include <visual_utils.h>
 
+/* constructors */  //{
+BatchVisualizer::BatchVisualizer() {
+}
+
+BatchVisualizer::~BatchVisualizer() {
+}
+
+BatchVisualizer::BatchVisualizer(ros::NodeHandle rosNode, std::string frame) {
+  this->frame      = frame;
+  this->visual_pub = rosNode.advertise<visualization_msgs::MarkerArray>("/radiation/visualizer", 1);
+}
+//}
+
+/* visualizeRay */  //{
 void VisualTools::visualizeRay(ros::Publisher pub, Ray ray, std::string frame) {
   visualization_msgs::Marker line_strip;
   line_strip.header.frame_id    = frame;
@@ -29,7 +43,9 @@ void VisualTools::visualizeRay(ros::Publisher pub, Ray ray, std::string frame) {
   line_strip.points.push_back(p2);
   pub.publish(line_strip);
 }
+//}
 
+/* visualizePoint */  //{
 void VisualTools::visualizePoint(ros::Publisher pub, Eigen::Vector3d p, std::string frame, double size, double r, double g, double b) {
   visualization_msgs::Marker marker;
   marker.header.frame_id    = frame;
@@ -57,7 +73,9 @@ void VisualTools::visualizePoint(ros::Publisher pub, Eigen::Vector3d p, std::str
 
   pub.publish(marker);
 }
+//}
 
+/* visualizeRect */  //{
 void VisualTools::visualizeRect(ros::Publisher pub, Rectangle rect, std::string frame, double r, double g, double b) {
   visualization_msgs::Marker line_strip;
   line_strip.header.frame_id    = frame;
@@ -102,19 +120,10 @@ void VisualTools::visualizeRect(ros::Publisher pub, Rectangle rect, std::string 
   pub.publish(line_strip);
   ros::spinOnce();
 }
+//}
 
-BatchVisualizer::BatchVisualizer() {
-}
-
-BatchVisualizer::~BatchVisualizer() {
-}
-
-BatchVisualizer::BatchVisualizer(ros::NodeHandle rosNode, std::string frame) {
-  this->frame      = frame;
-  this->visual_pub = rosNode.advertise<visualization_msgs::MarkerArray>("/radiation/visualizer", 1);
-}
-
-void BatchVisualizer::addRay(Ray ray, double r, double g, double b) {
+/* addRay */  //{
+void BatchVisualizer::addRay(Ray ray, double r, double g, double b, double scale) {
   ++marker_count;
   visualization_msgs::Marker marker;
   marker.header.frame_id    = frame;
@@ -125,7 +134,7 @@ void BatchVisualizer::addRay(Ray ray, double r, double g, double b) {
   marker.id                 = marker_count;
   marker.type               = visualization_msgs::Marker::LINE_STRIP;
 
-  marker.scale.x = 0.004;
+  marker.scale.x = scale;
 
   marker.color.r = r;
   marker.color.g = g;
@@ -146,8 +155,9 @@ void BatchVisualizer::addRay(Ray ray, double r, double g, double b) {
   marker.points.push_back(p2);
   msg.markers.push_back(marker);
 }
+//}
 
-
+/* addPoint */  //{
 void BatchVisualizer::addPoint(Eigen::Vector3d p, double r, double g, double b, double scale) {
   ++marker_count;
   visualization_msgs::Marker marker;
@@ -175,8 +185,10 @@ void BatchVisualizer::addPoint(Eigen::Vector3d p, double r, double g, double b, 
   marker.points.push_back(gp);
   msg.markers.push_back(marker);
 }
+//}
 
-void BatchVisualizer::addRect(Rectangle rect) {
+/* addRect */  //{
+void BatchVisualizer::addRect(Rectangle rect, double r, double g, double b, double scale) {
   ++marker_count;
   visualization_msgs::Marker marker;
   marker.header.frame_id    = frame;
@@ -187,11 +199,11 @@ void BatchVisualizer::addRect(Rectangle rect) {
   marker.id                 = marker_count;
   marker.type               = visualization_msgs::Marker::LINE_STRIP;
 
-  marker.scale.x = 0.002;
+  marker.scale.x = scale;
 
-  marker.color.r = 0.0;
-  marker.color.g = 0.3;
-  marker.color.b = 1.0;
+  marker.color.r = r;
+  marker.color.g = g;
+  marker.color.b = b;
   marker.color.a = 1.0;
 
   geometry_msgs::Point pa, pb, pc, pd;
@@ -220,7 +232,9 @@ void BatchVisualizer::addRect(Rectangle rect) {
 
   msg.markers.push_back(marker);
 }
+//}
 
+/* addEllipse */ //{
 void BatchVisualizer::addEllipse(Ellipse e, double r, double g, double b) {
   ++marker_count;
   visualization_msgs::Marker marker;
@@ -257,8 +271,10 @@ void BatchVisualizer::addEllipse(Ellipse e, double r, double g, double b) {
 
   msg.markers.push_back(marker);
 }
+//}
 
-void BatchVisualizer::addCuboid(Cuboid cuboid, double r, double g, double b) {
+/* addCuboid */ //{
+void BatchVisualizer::addCuboid(Cuboid cuboid, double r, double g, double b, double scale) {
   ++marker_count;
   visualization_msgs::Marker marker_front;
   marker_front.header.frame_id    = frame;
@@ -269,7 +285,7 @@ void BatchVisualizer::addCuboid(Cuboid cuboid, double r, double g, double b) {
   marker_front.id                 = marker_count;
   marker_front.type               = visualization_msgs::Marker::LINE_STRIP;
 
-  marker_front.scale.x = 0.002;
+  marker_front.scale.x = scale;
 
   marker_front.color.r = r;
   marker_front.color.g = g;
@@ -366,12 +382,17 @@ void BatchVisualizer::addCuboid(Cuboid cuboid, double r, double g, double b) {
   msg.markers.push_back(marker_dg);
   msg.markers.push_back(marker_ch);
 }
+//}
 
+/* clear */ //{
 void BatchVisualizer::clear() {
   msg.markers.clear();
   marker_count = 0;
 }
+//}
 
+/* publish */ //{
 void BatchVisualizer::publish() {
   visual_pub.publish(msg);
 }
+//}
