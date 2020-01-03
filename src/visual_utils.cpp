@@ -1,4 +1,4 @@
-#include <visual_utils.h>
+#include <geometry_visual_utils/visual_utils.h>
 
 /* constructors */  //{
 BatchVisualizer::BatchVisualizer() {

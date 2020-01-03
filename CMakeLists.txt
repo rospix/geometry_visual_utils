@@ -29,16 +29,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
 catkin_package(
   INCLUDE_DIRS include
   DEPENDS Eigen roscpp gazebo_ros
-  LIBRARIES geometry_visual_utils geometry_utils
+  LIBRARIES geometry_visual_utils radiation_geometry_utils
   )
 
 include_directories(
-  include/${PROJECT_NAME}
-  ${CMAKE_CURRENT_BINARY_DIR}
+  include
   ${catkin_INCLUDE_DIRS}
-  ${GAZEBO_INCLUDE_DIRS}
   ${Eigen_INCLUDE_DIRS}
-  # ${Boost_INCLUDE_DIR}
+  ${GAZEBO_INCLUDE_DIRS}
   )
 
 link_directories(${GAZEBO_LIBRARY_DIRS})
@@ -48,14 +46,18 @@ add_library(
   src/visual_utils.cpp
   )
 
-add_library(
-  geometry_utils
-  src/geometry_utils.cpp
+target_link_libraries(geometry_visual_utils
+  ${catkin_LIBRARIES}
+  ${Eigen_LIBRARIES}
   )
 
-target_link_libraries(${PROJECT_NAME}
+add_library(
+  radiation_geometry_utils
+  src/radiation_geometry_utils.cpp
+  )
+
+target_link_libraries(radiation_geometry_utils
   ${catkin_LIBRARIES}
-  ${GAZEBO_LIBRARIES}
   ${Eigen_LIBRARIES}
   )
 

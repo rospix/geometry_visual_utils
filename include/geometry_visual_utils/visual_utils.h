@@ -5,9 +5,9 @@
 #include <vector>
 #include <ignition/math.hh>
 #include <eigen3/Eigen/Core>
-#include "geometry_utils.h"
 #include <visualization_msgs/MarkerArray.h>
 #include <geometry_msgs/Point.h>
+#include <geometry_visual_utils/radiation_geometry_utils.h>
 
 class VisualTools {
 public:
